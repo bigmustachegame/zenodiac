@@ -1,0 +1,571 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#090407">
+  <title>BeatBitBoss — Rhythm Battles vs 8-Bit Bosses</title>
+  <meta name="description" content="Tap to the beat, parry red spiked attacks, and defeat 30 epic 8-bit bosses in this handcrafted iOS rhythm combat duel. 100% offline, zero ads.">
+  <link rel="icon" type="image/png" href="img/icon.png">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #090407;
+      --bg-card: rgba(22, 12, 18, 0.7);
+      --bg-card-hover: rgba(35, 18, 28, 0.85);
+      --border: rgba(255, 42, 133, 0.18);
+      --border-bright: rgba(255, 42, 133, 0.45);
+      --pink: #ff2a85;
+      --pink-glow: rgba(255, 42, 133, 0.35);
+      --purple: #9d4edd;
+      --cyan: #00f0ff;
+      --gold: #ffb703;
+      --text: #ffffff;
+      --text-muted: #a3959e;
+      --font-body: "Outfit", -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-pixel: "Silkscreen", monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      overflow-x: hidden;
+      line-height: 1.6;
+      background-image: 
+        radial-gradient(circle at 50% -10%, rgba(255, 42, 133, 0.18) 0%, transparent 60%),
+        radial-gradient(circle at 10% 40%, rgba(157, 78, 221, 0.12) 0%, transparent 50%),
+        radial-gradient(circle at 90% 80%, rgba(0, 240, 255, 0.08) 0%, transparent 50%);
+    }
+
+    /* Top Navigation */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 36px;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      background: rgba(9, 4, 7, 0.75);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      text-decoration: none;
+      color: #fff;
+    }
+    .brand img {
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      box-shadow: 0 0 16px var(--pink-glow);
+    }
+    .brand-title {
+      font-family: var(--font-pixel);
+      font-size: 18px;
+      letter-spacing: 1px;
+      color: #fff;
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      list-style: none;
+    }
+    .nav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 15px;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover {
+      color: var(--pink);
+    }
+    .btn-nav {
+      background: linear-gradient(135deg, var(--pink), #d90429);
+      color: #fff;
+      padding: 9px 20px;
+      border-radius: 99px;
+      font-weight: 600;
+      font-size: 14px;
+      text-decoration: none;
+      box-shadow: 0 4px 18px var(--pink-glow);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .btn-nav:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 24px rgba(255, 42, 133, 0.5);
+    }
+
+    /* Container */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* Hero Section */
+    .hero {
+      padding: 160px 0 100px;
+      text-align: center;
+      position: relative;
+    }
+    .badge-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 18px;
+      border-radius: 99px;
+      background: rgba(255, 42, 133, 0.12);
+      border: 1px solid var(--border-bright);
+      color: var(--pink);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      box-shadow: 0 0 24px rgba(255, 42, 133, 0.2);
+    }
+    .hero h1 {
+      font-size: clamp(44px, 7vw, 84px);
+      font-weight: 900;
+      line-height: 1.05;
+      letter-spacing: -0.04em;
+      margin-bottom: 24px;
+      text-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
+    }
+    .hero h1 .gradient {
+      background: linear-gradient(135deg, #fff 20%, var(--pink) 70%, var(--purple) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero p {
+      max-width: 680px;
+      margin: 0 auto 40px;
+      font-size: clamp(17px, 2.2vw, 21px);
+      color: var(--text-muted);
+      font-weight: 400;
+    }
+    .hero-cta {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 60px;
+    }
+    .btn-appstore {
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      background: #000;
+      color: #fff;
+      padding: 14px 28px;
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+      transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+    }
+    .btn-appstore:hover {
+      transform: translateY(-3px);
+      border-color: var(--pink);
+      box-shadow: 0 14px 40px rgba(255, 42, 133, 0.35);
+    }
+    .btn-appstore svg {
+      width: 28px;
+      height: 28px;
+      fill: #fff;
+    }
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.06);
+      color: #fff;
+      padding: 15px 28px;
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 16px;
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.12);
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+
+    /* Hero Showcase Banner */
+    .hero-banner-wrap {
+      position: relative;
+      margin-top: 20px;
+    }
+    .hero-banner-wrap::after {
+      content: "";
+      position: absolute;
+      inset: -20px;
+      background: radial-gradient(circle at 50% 50%, var(--pink-glow), transparent 70%);
+      z-index: 1;
+      filter: blur(40px);
+      pointer-events: none;
+    }
+    .hero-banner {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      border-radius: 24px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.9);
+      display: block;
+    }
+
+    /* Features Grid */
+    .section-title {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+    .section-title h2 {
+      font-size: clamp(32px, 5vw, 48px);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      margin-bottom: 12px;
+    }
+    .section-title p {
+      color: var(--text-muted);
+      font-size: 18px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 28px;
+      margin-bottom: 120px;
+    }
+    .feature-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 36px 30px;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      transition: transform 0.3s, border-color 0.3s, background 0.3s, box-shadow 0.3s;
+    }
+    .feature-card:hover {
+      transform: translateY(-6px);
+      border-color: var(--border-bright);
+      background: var(--bg-card-hover);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 30px rgba(255, 42, 133, 0.15);
+    }
+    .feature-icon {
+      width: 58px;
+      height: 58px;
+      border-radius: 16px;
+      background: rgba(255, 42, 133, 0.15);
+      border: 1px solid var(--border-bright);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      margin-bottom: 22px;
+    }
+    .feature-card h3 {
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: #fff;
+    }
+    .feature-card p {
+      color: var(--text-muted);
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    /* Screenshots Carousel Section */
+    .screenshots-section {
+      padding: 40px 0 120px;
+    }
+    .screens-row {
+      display: flex;
+      gap: 24px;
+      overflow-x: auto;
+      padding: 20px 4px 40px;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: thin;
+      scrollbar-color: var(--pink) transparent;
+    }
+    .screen-item {
+      flex: 0 0 300px;
+      scroll-snap-align: center;
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .screen-item:hover {
+      transform: scale(1.03);
+      box-shadow: 0 24px 60px rgba(255, 42, 133, 0.35);
+    }
+    .screen-item img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* Pricing Section */
+    .pricing-card {
+      background: linear-gradient(180deg, rgba(35, 18, 28, 0.9) 0%, rgba(15, 8, 12, 0.95) 100%);
+      border: 1px solid var(--border-bright);
+      border-radius: 32px;
+      padding: 60px 40px;
+      text-align: center;
+      max-width: 800px;
+      margin: 0 auto 120px;
+      position: relative;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.8), 0 0 50px rgba(255, 42, 133, 0.2);
+    }
+    .pricing-tag {
+      font-family: var(--font-pixel);
+      color: var(--pink);
+      font-size: 14px;
+      letter-spacing: 2px;
+      margin-bottom: 16px;
+    }
+    .pricing-card h3 {
+      font-size: clamp(32px, 4vw, 44px);
+      font-weight: 800;
+      margin-bottom: 16px;
+    }
+    .pricing-card p {
+      color: var(--text-muted);
+      font-size: 18px;
+      max-width: 580px;
+      margin: 0 auto 36px;
+    }
+    .pricing-features {
+      display: flex;
+      justify-content: center;
+      gap: 32px;
+      flex-wrap: wrap;
+      margin-bottom: 40px;
+    }
+    .p-feat {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 15px;
+      font-weight: 500;
+      color: #fff;
+    }
+    .p-feat span {
+      color: #00f0ff;
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 60px 0 40px;
+      color: var(--text-muted);
+      font-size: 14px;
+    }
+    .footer-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 24px;
+      margin-bottom: 30px;
+    }
+    .footer-links {
+      display: flex;
+      gap: 24px;
+      list-style: none;
+    }
+    .footer-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-links a:hover {
+      color: #fff;
+    }
+
+    @media (max-width: 768px) {
+      nav { padding: 14px 20px; }
+      .nav-links { display: none; }
+      .hero { padding: 130px 0 60px; }
+      .pricing-card { padding: 40px 20px; }
+      .footer-content { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav>
+    <a href="index.html" class="brand">
+      <img src="img/icon.png" alt="BeatBitBoss Icon">
+      <span class="brand-title">BEATBITBOSS</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#features">Features</a></li>
+      <li><a href="#screens">Screenshots</a></li>
+      <li><a href="#pricing">Free Trial</a></li>
+      <li><a href="support.html">Support</a></li>
+      <li><a href="privacy.html">Privacy</a></li>
+    </ul>
+    <a href="https://apps.apple.com/app/id6819088717" class="btn-nav">Download iOS</a>
+  </nav>
+
+  <!-- Hero -->
+  <header class="hero">
+    <div class="container">
+      <div class="badge-pill">★ Handcrafted Rhythm Combat Duel ★</div>
+      <h1>Rhythm Battles.<br><span class="gradient">8-Bit Bosses.</span></h1>
+      <p>Tap lanes on the beat, parry furious red spiked attacks, and conquer 30 ruthless pixel bosses with original chiptune anthems. 100% offline, zero ads.</p>
+      
+      <div class="hero-cta">
+        <a href="https://apps.apple.com/app/id6819088717" class="btn-appstore">
+          <svg viewBox="0 0 170 170"><path d="M150.37 130.25c-2.45 5.66-5.35 10.87-8.71 15.66-4.58 6.53-8.33 11.05-11.22 13.56-4.48 4.12-9.28 6.23-14.42 6.35-3.69 0-8.14-1.05-13.32-3.18-5.19-2.12-9.97-3.17-14.34-3.17-4.58 0-9.49 1.05-14.75 3.17-5.26 2.13-9.5 3.24-12.74 3.35-4.35.13-9.16-1.9-14.42-6.08-3.69-3.04-7.67-7.81-11.96-14.34-6.36-9.78-11.23-20.76-14.61-32.93-3.38-12.17-5.07-23.79-5.07-34.86 0-16.19 4.13-29.74 12.38-40.66 8.26-10.92 18.7-16.5 31.33-16.76 4.9 0 10.28 1.25 16.14 3.76 5.86 2.5 9.77 3.86 11.73 4.07 1.74-.21 5.86-1.57 12.37-4.07 6.51-2.51 12.06-3.65 16.65-3.44 12.61.64 22.82 5.37 30.64 14.19-11.09 6.74-16.52 16.09-16.3 28.05.22 9.57 3.86 17.5 10.92 23.81 7.07 6.3 15.54 9.94 25.4 10.92-2.17 6.52-4.89 13.04-8.15 19.57zM119.22 33.15c0-7.83 2.82-15.11 8.46-21.85 5.64-6.74 12.6-10.98 20.89-12.72.33 1.3.49 2.5.49 3.59 0 7.83-3.04 15.33-9.12 22.49-6.08 7.16-13.14 11.29-21.18 12.4-.22-1.3-.34-2.39-.34-3.91z"/></svg>
+          <div>
+            <div style="font-size:11px;font-weight:400;text-transform:uppercase;letter-spacing:0.5px">Download on the</div>
+            <div style="font-size:18px;font-weight:700">App Store</div>
+          </div>
+        </a>
+        <a href="#screens" class="btn-secondary">View Screenshots ↓</a>
+      </div>
+
+      <div class="hero-banner-wrap">
+        <img src="img/cards-banner.jpg" alt="BeatBitBoss 5 App Store Showcase Cards" class="hero-banner">
+      </div>
+    </div>
+  </header>
+
+  <!-- Features Grid -->
+  <section id="features" class="container">
+    <div class="section-title">
+      <h2>Everything Built For Pure Groove</h2>
+      <p>Precision rhythm mechanics engineered from scratch with zero compromises.</p>
+    </div>
+
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">⚡</div>
+        <h3>30 Handcrafted Bosses</h3>
+        <p>From the eerie cat of Moonlight to the chaotic rage of Prayer Keeper. Five tiers of difficulty that evolve as you climb from 3-lane starters to 4-lane chord madness.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">🛡️</div>
+        <h3>Parry the Fury</h3>
+        <p>Don't just tap notes. Hold sustained chords through laser storms and time your parry strikes against blazing red spiked incoming boss attacks.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">🔥</div>
+        <h3>2x Overdrive Mode</h3>
+        <p>Chain unbroken combos to charge your Overdrive meter. Trigger it during the boss's frantic rage phase to deal double damage and set world-class records.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">🎧</div>
+        <h3>Offline Chiptune Jukebox</h3>
+        <p>Every boss you defeat permanently unlocks its full track in "My List". Put on your headphones, lock your phone, and enjoy background playback with lock screen controls.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">✈️</div>
+        <h3>100% Offline Gameplay</h3>
+        <p>Subway, airplane, or remote mountain cabin — BeatBitBoss never requires an internet connection. No login accounts, no waiting, no loading screens.</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="feature-icon">💎</div>
+        <h3>Fair & Clean Experience</h3>
+        <p>Zero pop-up ads, zero analytics SDKs, zero consumable currencies. We respect your attention and your privacy completely.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Screenshots Carousel -->
+  <section id="screens" class="screenshots-section">
+    <div class="container">
+      <div class="section-title">
+        <h2>App Store Showcase</h2>
+        <p>Swipe through real in-game action captured on iPhone.</p>
+      </div>
+
+      <div class="screens-row">
+        <div class="screen-item"><img src="screens/screen1.png" alt="01 - Rhythm battles"></div>
+        <div class="screen-item"><img src="screens/screen2.png" alt="02 - Parry the fury"></div>
+        <div class="screen-item"><img src="screens/screen3.png" alt="03 - 30 epic bosses"></div>
+        <div class="screen-item"><img src="screens/screen4.png" alt="04 - Unleash Overdrive"></div>
+        <div class="screen-item"><img src="screens/screen5.png" alt="05 - Your soundtrack offline"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing Card -->
+  <section id="pricing" class="container">
+    <div class="pricing-card">
+      <div class="pricing-tag">TRANSPARENT PRICING</div>
+      <h3>Free to Play. One Tap to Own.</h3>
+      <p>The first 3 bosses are 100% free forever. If you fall in love with the groove, unlock all remaining 27 bosses, 4-lane modes, and the complete soundtrack with a single $2.99 purchase.</p>
+      
+      <div class="pricing-features">
+        <div class="p-feat"><span>✔</span> First 3 Bosses Free Forever</div>
+        <div class="p-feat"><span>✔</span> Single $2.99 One-Time Unlock</div>
+        <div class="p-feat"><span>✔</span> Zero Ads, Zero Subscriptions</div>
+        <div class="p-feat"><span>✔</span> Family Sharing Enabled</div>
+      </div>
+
+      <a href="https://apps.apple.com/app/id6819088717" class="btn-appstore">
+        <svg viewBox="0 0 170 170"><path d="M150.37 130.25c-2.45 5.66-5.35 10.87-8.71 15.66-4.58 6.53-8.33 11.05-11.22 13.56-4.48 4.12-9.28 6.23-14.42 6.35-3.69 0-8.14-1.05-13.32-3.18-5.19-2.12-9.97-3.17-14.34-3.17-4.58 0-9.49 1.05-14.75 3.17-5.26 2.13-9.5 3.24-12.74 3.35-4.35.13-9.16-1.9-14.42-6.08-3.69-3.04-7.67-7.81-11.96-14.34-6.36-9.78-11.23-20.76-14.61-32.93-3.38-12.17-5.07-23.79-5.07-34.86 0-16.19 4.13-29.74 12.38-40.66 8.26-10.92 18.7-16.5 31.33-16.76 4.9 0 10.28 1.25 16.14 3.76 5.86 2.5 9.77 3.86 11.73 4.07 1.74-.21 5.86-1.57 12.37-4.07 6.51-2.51 12.06-3.65 16.65-3.44 12.61.64 22.82 5.37 30.64 14.19-11.09 6.74-16.52 16.09-16.3 28.05.22 9.57 3.86 17.5 10.92 23.81 7.07 6.3 15.54 9.94 25.4 10.92-2.17 6.52-4.89 13.04-8.15 19.57zM119.22 33.15c0-7.83 2.82-15.11 8.46-21.85 5.64-6.74 12.6-10.98 20.89-12.72.33 1.3.49 2.5.49 3.59 0 7.83-3.04 15.33-9.12 22.49-6.08 7.16-13.14 11.29-21.18 12.4-.22-1.3-.34-2.39-.34-3.91z"/></svg>
+        <div>
+          <div style="font-size:11px;font-weight:400;text-transform:uppercase;letter-spacing:0.5px">Get BeatBitBoss on</div>
+          <div style="font-size:18px;font-weight:700">App Store</div>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <div style="display:flex;align-items:center;gap:12px">
+          <img src="img/studio.png" alt="Big Mustache Studio" style="height:28px">
+          <span>© 2026 Big Mustache. All rights reserved.</span>
+        </div>
+        <ul class="footer-links">
+          <li><a href="support.html">Support & FAQ</a></li>
+          <li><a href="privacy.html">Privacy Policy</a></li>
+          <li><a href="mailto:bigmustachegame@gmail.com">Contact Developer</a></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

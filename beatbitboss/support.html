@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#090407">
+  <title>BeatBitBoss — Support & Help Center</title>
+  <meta name="description" content="Official customer support, troubleshooting, restore purchases guide, and FAQ for BeatBitBoss on iOS.">
+  <link rel="icon" type="image/png" href="img/icon.png">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #090407;
+      --bg-card: rgba(22, 12, 18, 0.7);
+      --border: rgba(255, 42, 133, 0.18);
+      --border-bright: rgba(255, 42, 133, 0.45);
+      --pink: #ff2a85;
+      --pink-glow: rgba(255, 42, 133, 0.35);
+      --cyan: #00f0ff;
+      --text: #ffffff;
+      --text-muted: #a3959e;
+      --font-body: "Outfit", -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-pixel: "Silkscreen", monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      line-height: 1.6;
+      background-image: 
+        radial-gradient(circle at 50% 0%, rgba(255, 42, 133, 0.15) 0%, transparent 60%),
+        radial-gradient(circle at 90% 90%, rgba(0, 240, 255, 0.08) 0%, transparent 50%);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Top Navigation */
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 36px;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      background: rgba(9, 4, 7, 0.8);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: #fff;
+    }
+    .brand img {
+      width: 38px;
+      height: 38px;
+      border-radius: 8px;
+      box-shadow: 0 0 12px var(--pink-glow);
+    }
+    .brand-title {
+      font-family: var(--font-pixel);
+      font-size: 16px;
+      letter-spacing: 1px;
+    }
+    .nav-links {
+      display: flex;
+      gap: 24px;
+      list-style: none;
+    }
+    .nav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 15px;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover {
+      color: var(--pink);
+    }
+
+    .container {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 60px 24px 80px;
+      flex: 1;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+    .badge {
+      display: inline-block;
+      font-family: var(--font-pixel);
+      font-size: 12px;
+      color: var(--pink);
+      padding: 4px 14px;
+      border-radius: 99px;
+      background: rgba(255, 42, 133, 0.12);
+      border: 1px solid var(--border-bright);
+      margin-bottom: 16px;
+      letter-spacing: 1px;
+    }
+    h1 {
+      font-size: clamp(34px, 5vw, 52px);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      margin-bottom: 12px;
+    }
+    .header p {
+      color: var(--text-muted);
+      font-size: 18px;
+    }
+
+    /* Contact Card */
+    .contact-card {
+      background: linear-gradient(135deg, rgba(35, 18, 28, 0.9) 0%, rgba(18, 9, 14, 0.95) 100%);
+      border: 1px solid var(--border-bright);
+      border-radius: 24px;
+      padding: 36px 32px;
+      margin-bottom: 48px;
+      box-shadow: 0 16px 40px rgba(0,0,0,0.6), 0 0 30px rgba(255, 42, 133, 0.15);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+    .contact-info h2 {
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+    .contact-info p {
+      color: var(--text-muted);
+      font-size: 15px;
+    }
+    .btn-email {
+      background: var(--pink);
+      color: #fff;
+      padding: 12px 24px;
+      border-radius: 14px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 15px;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 4px 20px var(--pink-glow);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .btn-email:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(255, 42, 133, 0.5);
+    }
+
+    /* FAQ Section */
+    .faq-title {
+      font-size: 26px;
+      font-weight: 700;
+      margin-bottom: 24px;
+      letter-spacing: -0.02em;
+    }
+    .faq-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin-bottom: 50px;
+    }
+    .faq-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 24px 28px;
+      backdrop-filter: blur(12px);
+      transition: border-color 0.2s;
+    }
+    .faq-item:hover {
+      border-color: var(--border-bright);
+    }
+    .faq-item h3 {
+      font-size: 18px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .faq-item h3 span {
+      color: var(--pink);
+    }
+    .faq-item p {
+      color: var(--text-muted);
+      font-size: 15px;
+      line-height: 1.6;
+    }
+
+    /* Language Switcher */
+    .lang-section {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 18px;
+      padding: 24px 28px;
+      margin-top: 40px;
+    }
+    .lang-section h3 {
+      font-size: 17px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: #fff;
+    }
+
+    footer {
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 30px 24px;
+      color: var(--text-muted);
+      font-size: 14px;
+      text-align: center;
+    }
+    footer a { color: var(--pink); text-decoration: none; }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="brand">
+      <img src="img/icon.png" alt="BeatBitBoss Icon">
+      <span class="brand-title">BEATBITBOSS SUPPORT</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">← Game Home</a></li>
+      <li><a href="privacy.html">Privacy Policy</a></li>
+    </ul>
+  </nav>
+
+  <div class="container">
+    <div class="header">
+      <div class="badge">SUPPORT CENTER</div>
+      <h1>How Can We Help You?</h1>
+      <p>Official support, billing, restore purchases, and technical guide.</p>
+    </div>
+
+    <!-- Direct Contact Card -->
+    <div class="contact-card">
+      <div class="contact-info">
+        <h2>Direct Developer Support</h2>
+        <p>Send us an email anytime. We respond within 24 to 48 hours.</p>
+        <p style="margin-top:8px;font-weight:600;color:#fff">bigmustachegame@gmail.com</p>
+      </div>
+      <a href="mailto:bigmustachegame@gmail.com?subject=BeatBitBoss%20Support%20Request" class="btn-email">
+        <span>✉</span> Email Support
+      </a>
+    </div>
+
+    <!-- FAQ Accordion -->
+    <h2 class="faq-title">Frequently Asked Questions</h2>
+    
+    <div class="faq-list">
+      <div class="faq-item">
+        <h3><span>Q.</span> How do I restore my "Full Game" purchase?</h3>
+        <p>If you reinstalled BeatBitBoss or switched to a new iPhone/iPad, simply tap on any locked boss card to open the purchase window, then tap <strong>"Restore Purchases"</strong>. Apple will securely verify your Apple ID and instantly unlock all 30 bosses at no charge.</p>
+      </div>
+
+      <div class="faq-item">
+        <h3><span>Q.</span> Which content is free, and what does the purchase unlock?</h3>
+        <p>The first 3 bosses (Moonlight, Dreamweaver, and Wind) are 100% free to play with no time limits. The one-time Non-Consumable In-App Purchase <strong>"Full Game" ($2.99)</strong> permanently unlocks all remaining 27 bosses, 4-lane challenge modes, and the offline Jukebox (My List). There are no recurrent subscriptions or consumable coins.</p>
+      </div>
+
+      <div class="faq-item">
+        <h3><span>Q.</span> How do I calibrate audio latency?</h3>
+        <p>Bluetooth headphones (like AirPods) have natural wireless delay. During any boss fight, tap the pause button (II) in the top-right corner. You can adjust audio latency with the <strong>+ / -</strong> buttons in 10 ms increments to achieve flawless rhythm sync.</p>
+      </div>
+
+      <div class="faq-item">
+        <h3><span>Q.</span> Does BeatBitBoss require an internet connection?</h3>
+        <p>No! BeatBitBoss works 100% offline. All boss charts, visual effects, and retro soundtrack files are stored entirely within the app package. You can play on airplanes, subways, or offline mode without limitations.</p>
+      </div>
+
+      <div class="faq-item">
+        <h3><span>Q.</span> How does Family Sharing work?</h3>
+        <p>BeatBitBoss supports Apple Family Sharing! Once you purchase "Full Game", up to 5 family members on your iCloud Family account can access and play all 30 bosses on their own iOS devices without purchasing again.</p>
+      </div>
+
+      <div class="faq-item">
+        <h3><span>Q.</span> Where is my game progress saved?</h3>
+        <p>Your high scores, boss victories, and combo records are saved directly in local storage on your device. We do not track or store your data on external cloud servers, guaranteeing absolute privacy.</p>
+      </div>
+    </div>
+
+    <!-- Türkçe Destek Bölümü -->
+    <div class="lang-section">
+      <h3>🇹🇷 Türkçe Destek & SSS Özeti</h3>
+      <p style="color:var(--text-muted);font-size:14px;margin-bottom:12px">
+        • <strong>Satın Alımı Geri Yükleme:</strong> Oyunu yeniden yüklediğinizde kilitli bir boss'a tıklayıp açılan pencereden "Restore Purchases" (Satın Alımları Geri Yükle) butonuna basmanız yeterlidir.<br>
+        • <strong>Ücretsiz Deneyim:</strong> İlk 3 boss tamamen ücretsizdir. Kalan 27 boss tek seferlik 2.99$ uygulama içi satın almayla sonsuza kadar açılır.<br>
+        • <strong>Destek İletişim:</strong> Her türlü soru, hata bildirimi veya öneriniz için <strong>bigmustachegame@gmail.com</strong> adresine yazabilirsiniz.
+      </p>
+    </div>
+  </div>
+
+  <footer>
+    <p>© 2026 Big Mustache. All rights reserved. • <a href="privacy.html">Privacy Policy</a> • <a href="index.html">BeatBitBoss Home</a></p>
+  </footer>
+
+</body>
+</html>
